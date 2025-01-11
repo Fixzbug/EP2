@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+
+        .upload-container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .upload-container h1 {
+            margin-bottom: 20px;
+        }
+
+        .upload-container input,
+        .upload-container button {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .upload-container button {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .upload-container button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="upload-container">
+        <h1>Upload a File</h1>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="text" name="name" placeholder="Enter your name" required><br>
+            <input type="email" name="email" placeholder="Enter your email" required><br>
+            <input type="file" name="file" required><br>
+            <button type="submit">Upload</button>
+        </form>
+        <div id="response" style="margin-top: 20px; color: green;"></div>
+    </div>
+
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+            const file = form.querySelector('input[name="file"]').files[0];
+
+            // Check file size (e.g., max 10 MB)
+            if (file.size > 10 * 1024 * 1024) {
+                document.getElementById("response").textContent = "Error: File size exceeds 10 MB";
+                document.getElementById("response").style.color = "red";
+                return;
+            }
+
+            try {
+                // const response = await fetch("http://localhost:8888/api/user", {
+                //     method: "POST",
+                //     body: formData,
+                // });
+
+                const response = await fetch("/api/user", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to upload");
+                }
+
+                const result = await response.json();
+                document.getElementById("response").textContent = result.message;
+            } catch (error) {
+                document.getElementById("response").textContent = "Error: " + error.message;
+                document.getElementById("response").style.color = "red";
+            }
+        });
+
+    </script>
+</body>
+
+</html>

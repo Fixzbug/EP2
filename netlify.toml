@@ -1,8 +1,12 @@
+[functions]
+  directory = "functions" # ตำแหน่งโฟลเดอร์ที่เก็บฟังก์ชัน
+
 [build]
-    functions = "functions"
-    node_bundler = "esbuild"
+  publish = "public"         # โฟลเดอร์ที่ใช้เสิร์ฟไฟล์ static
+
 
 [[redirects]]
-  from = "/api"
-  to = "/.netlify/functions/api"
+  from = "/api/*" # แมปทุกเส้นทางที่ขึ้นต้นด้วย /api/ ไปยังฟังก์ชัน serverless
+  to = "/.netlify/functions/api/:splat"
   status = 200
+  
