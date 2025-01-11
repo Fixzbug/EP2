@@ -19,10 +19,15 @@ mongoose.connect(mongoURI, {
     .then(() => console.log("MongoDB Connected"))
     .catch((err) => console.error("MongoDB Error:", err));
 
-// ตั้งค่าที่เก็บไฟล์อัปโหลด
-const uploadDirectory = path.join(__dirname, "../uploads");
+// // ตั้งค่าที่เก็บไฟล์อัปโหลด
+// const uploadDirectory = path.join(__dirname, "../uploads");
+// if (!fs.existsSync(uploadDirectory)) {
+//     fs.mkdirSync(uploadDirectory); // สร้างโฟลเดอร์ถ้ายังไม่มี
+// }
+
+const uploadDirectory = "/tmp/uploads"; // Use temporary directory
 if (!fs.existsSync(uploadDirectory)) {
-    fs.mkdirSync(uploadDirectory); // สร้างโฟลเดอร์ถ้ายังไม่มี
+    fs.mkdirSync(uploadDirectory, { recursive: true }); // Create the directory if it doesn't exist
 }
 
 // ตั้งค่า multer สำหรับการจัดเก็บไฟล์
