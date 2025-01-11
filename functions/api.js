@@ -3,9 +3,9 @@ const ServerlessHttp = require("serverless-http");
 
 const app = express();
 
-app.get('/.netlify/functions/api', (req, res) => {
+app.get('/api', (req, res) => {
     return res.json({
-        messages: "hello world! 466565656"
+        messages: "hello world! GGEZ"
     });
 });
 
